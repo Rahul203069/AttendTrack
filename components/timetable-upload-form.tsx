@@ -77,8 +77,33 @@ export default function TimetableUploadForm({ userId }: { userId: string }) {
       "2:50 - 3:40 pm": null,
       "3:40 - 4:30 pm": null,
       "4:30 - 5:20 pm": null
+    },
+    "Saturday": {
+      "9:00 - 9:50 am": "ECL 256 (G3)",
+      "9:50 - 10:40 am": "ECT 252",
+      "10:40 - 11:30 am": "MAT 213",
+      "11:30 - 12:20 pm": "ECL 255 (G3)",
+      "12:20 - 1:10 pm": null,
+      "1:10 - 2:00 pm": "Lunch",
+      "2:00 - 2:50 pm": "ECT 259",
+      "2:50 - 3:40 pm": "ECT 250",
+      "3:40 - 4:30 pm": null,
+      "4:30 - 5:20 pm": null
+    },
+    "Sunday": {
+      "9:00 - 9:50 am": "ECL 254 (G3)",
+      "9:50 - 10:40 am": "ECT 253",
+      "10:40 - 11:30 am": "ECT 251",
+      "11:30 - 12:20 pm": "ECL 258 (G4)",
+      "12:20 - 1:10 pm": null,
+      "1:10 - 2:00 pm": "Lunch",
+      "2:00 - 2:50 pm": "ECT 252",
+      "2:50 - 3:40 pm": "MAT 213",
+      "3:40 - 4:30 pm": "ECT 259",
+      "4:30 - 5:20 pm": null
     }
-  };
+  }
+  ;
   
   // For image upload
   const { getRootProps, getInputProps } = useDropzone({

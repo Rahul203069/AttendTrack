@@ -1,5 +1,5 @@
 "use client";
-
+//@ts-nocheck
 import { SessionProvider } from "next-auth/react";
 import { ReactNode } from "react";
 

@@ -26,8 +26,8 @@ export default async function TimetablePage() {
   
   return (
     <DashboardLayout>
-      <div className="container py-6">
-        <h1 className="text-3xl font-bold tracking-tight mb-6">Your Timetable</h1>
+      <div className=" md:p-6">
+      
         <TimetableView timetable={user.timetable} />
       </div>
     </DashboardLayout>

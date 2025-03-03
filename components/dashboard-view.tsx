@@ -1,5 +1,43 @@
-"use client";
 
+"use client";
+  const name=            [
+  {
+    "Course Title": "Electronics-II",
+    "Course Code": "ECT 250"
+  },
+  {
+    "Course Title": "Digital Electronics & Logic Design",
+    "Course Code": "ECT 251"
+  },
+  {
+    "Course Title": "Communication Systems-I",
+    "Course Code": "ECT 252"
+  },
+  {
+    "Course Title": "Applied EMF and waves",
+    "Course Code": "ECT 253"
+  },
+  {
+    "Course Title": "Control Systems",
+    "Course Code": "ECT 259"
+  },
+  {
+    "Course Title": "Mathematics IV",
+    "Course Code": "MAT 213"
+  },
+  {
+    "Course Title": "Electronics-II Lab",
+    "Course Code": "ECL 254"
+  },
+  {
+    "Course Title": "Digital Electronics & Logic Design Lab",
+    "Course Code": "ECL 255"
+  },
+  {
+    "Course Title": "Communication-I Lab",
+    "Course Code": "ECL 256"
+  }
+]
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -64,18 +102,9 @@ export default function DashboardView({ user }: { user: any }) {
   const COLORS = ["hsl(var(--chart-1))", "hsl(var(--chart-3))"];
   
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur">
-        <div className="container flex h-16 items-center justify-between py-4">
-          <div className="flex items-center gap-2">
-            <Calendar className="h-6 w-6" />
-            <h1 className="text-xl font-bold">AttendanceTracker</h1>
-          </div>
-          <Button variant="outline" onClick={() => signOut({ callbackUrl: "/" })}>
-            Sign Out
-          </Button>
-        </div>
-      </header>
+    <div className="flex min-h-screen flex-col md:p-4">
+
+    
       <main className="flex-1">
         <div className="container py-6">
           <div className="mb-6">
@@ -175,12 +204,14 @@ export default function DashboardView({ user }: { user: any }) {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
+
+    
                     <div className="space-y-4">
                       {Object.entries(subjectAttendance).slice(0, 5).map(([subject, data]) => (
                         <div key={subject} className="flex items-center">
                           <div className="w-full space-y-1">
                             <p className="text-sm font-medium leading-none">
-                              {subject}
+                              {}
                             </p>
                             <div className="flex items-center text-xs text-muted-foreground">
                               <Progress 

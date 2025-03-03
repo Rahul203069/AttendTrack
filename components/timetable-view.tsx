@@ -10,14 +10,8 @@ export default function TimetableView({ timetable }: { timetable: Record<string,
   const [activeDay, setActiveDay] = useState(days[0]);
   
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Weekly Schedule</CardTitle>
-        <CardDescription>
-          Your class timetable for the week
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
+   
+    
         <Tabs defaultValue={activeDay} onValueChange={setActiveDay}>
           <TabsList className="grid grid-cols-5 mb-4">
             {days.map((day) => (
@@ -52,7 +46,6 @@ export default function TimetableView({ timetable }: { timetable: Record<string,
             </TabsContent>
           ))}
         </Tabs>
-      </CardContent>
-    </Card>
+     
   );
 }

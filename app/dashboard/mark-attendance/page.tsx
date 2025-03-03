@@ -1,4 +1,3 @@
-
 //@ts-nocheck
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth/next";
@@ -25,9 +24,15 @@ export default async function MarkAttendancePage() {
   
   return (
     <DashboardLayout>
-      <div className="container py-6">
-        <h1 className="text-3xl font-bold tracking-tight mb-6">Mark Attendance</h1>
-        <div className="max-w-md mx-auto">
+   
+      <div className="container md:p-6">
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold tracking-tight">Mark Attendance</h1>
+            <p className="text-muted-foreground text-md">
+            {user.name},Record your attendance for classes
+            </p>
+          </div>
+        <div className="max-w-md ">
           <MarkAttendance user={user} />
         </div>
       </div>

@@ -1,21 +1,51 @@
+//@ts-nocheck
 "use client";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { format } from "date-fns";
+
+import { format, set } from "date-fns";
 import { Calendar as CalendarIcon, Check, X } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import axios from "axios";
+import { Toast } from "./ui/toast";
+import TimetableView from "./timetable-view";
+import Attendance from "./Attendance";
+
+
+function getAttendanceStatus(attendance: Record<string, Record<string, string>>, date: string, subject: string): string {
+  if (!attendance[date]) {
+      return "Not chosen"; // No record for the given date
+  }
+  
+  if (attendance[date][subject] === undefined) {
+      return "Not chosen"; // No record for the given subject on that date
+  }
+  
+  return attendance[date][subject]; // Returns "present" or "absent"
+}
 
 export default function MarkAttendance({ user }: { user: any }) {
   const { toast } = useToast();
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [date, setDate] = useState<Date|string>(new Date());
   const [selectedSubject, setSelectedSubject] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [attendanceForm, setattendanceForm] = useState(null)
+
+const [relode, setrelode] = useState(false)
+ 
+
+  useEffect(() => {
+ 
+
+   axios.get(`http://localhost:3000/api/timetable`).then((res)=>{setattendanceForm(res.data);}).catch((err)=>{toast({ title: "Error", description: err.message, variant: "destructive" })})
+
+  
+  }, [relode]);
   
   // Extract unique subjects from timetable
   const subjects = new Set<string>();
@@ -26,66 +56,16 @@ export default function MarkAttendance({ user }: { user: any }) {
       }
     });
   });
+
   
-  const handleMarkAttendance = async (status: "present" | "absent") => {
-    if (!date || !selectedSubject) {
-      toast({
-        title: "Missing information",
-        description: "Please select a date and subject",
-        variant: "destructive",
-      });
-      return;
-    }
-    
-    setIsSubmitting(true);
-    
-    try {
-      const formattedDate = format(date, "yyyy-MM-dd");
-      
-      const response = await fetch("/api/attendance", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          date: formattedDate,
-          subject: selectedSubject,
-          status,
-        }),
-      });
-      
-      if (!response.ok) {
-        throw new Error("Failed to mark attendance");
-      }
-      
-      toast({
-        title: "Attendance marked",
-        description: `You've marked yourself as ${status} for ${selectedSubject}`,
-      });
-      
-      // Reset selection
-      setSelectedSubject("");
-    } catch (error) {
-      toast({
-        title: "Error marking attendance",
-        description: "There was an error marking your attendance. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  
   
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Mark Attendance</CardTitle>
-        <CardDescription>
-          Record your attendance for classes
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
+   
+     <>
+     
         <div className="space-y-2">
+
           <label className="text-sm font-medium">Date</label>
           <Popover>
             <PopoverTrigger asChild>
@@ -95,7 +75,7 @@ export default function MarkAttendance({ user }: { user: any }) {
                   "w-full justify-start text-left font-normal",
                   !date && "text-muted-foreground"
                 )}
-              >
+                >
                 <CalendarIcon className="mr-2 h-4 w-4" />
                 {date ? format(date, "PPP") : <span>Pick a date</span>}
               </Button>
@@ -104,50 +84,25 @@ export default function MarkAttendance({ user }: { user: any }) {
               <Calendar
                 mode="single"
                 selected={date}
-                onSelect={setDate}
+                onSelect={(date) => {setDate(date),console.log}}
+                
                 initialFocus
-              />
+                />
             </PopoverContent>
           </Popover>
         </div>
         
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Subject</label>
-          <Select value={selectedSubject} onValueChange={setSelectedSubject}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select a subject" />
-            </SelectTrigger>
-            <SelectContent>
-              {Array.from(subjects).map((subject) => (
-                <SelectItem key={subject} value={subject}>
-                  {subject}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+       
+
+
+   
+
+{attendanceForm&&<Attendance setrelode={setrelode} timetable={attendanceForm} date={date} />}
+
+
         
-        <div className="flex space-x-2 pt-4">
-          <Button
-            variant="outline"
-            className="w-full"
-            onClick={() => handleMarkAttendance("present")}
-            disabled={isSubmitting || !date || !selectedSubject}
-          >
-            <Check className="mr-2 h-4 w-4" />
-            Present
-          </Button>
-          <Button
-            variant="outline"
-            className="w-full"
-            onClick={() => handleMarkAttendance("absent")}
-            disabled={isSubmitting || !date || !selectedSubject}
-          >
-            <X className="mr-2 h-4 w-4" />
-            Absent
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
+       
+      
+            </>
   );
 }

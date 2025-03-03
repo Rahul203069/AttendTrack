@@ -1,8 +1,10 @@
+//@ts-nocheck
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { connectToDatabase } from "@/lib/mongodb";
 import DashboardView from "@/components/dashboard-view";
+import DashboardLayout from "@/components/dashboard-layout";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -20,5 +22,17 @@ export default async function DashboardPage() {
     redirect("/upload-timetable");
   }
   
-  return <DashboardView user={user} />;
+  return(
+    <>
+   
+    <DashboardLayout>
+
+    <DashboardView user={user} />;
+    </DashboardLayout>
+    
+    </>
+  
+  
+  )
+  
 }

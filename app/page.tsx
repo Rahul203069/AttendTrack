@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Button } from '@/components/ui/button';
 import { Calendar, GraduationCap, BarChart3 } from 'lucide-react';
 import Link from 'next/link';
@@ -8,8 +9,8 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
       <div className="container mx-auto px-4 py-16">
         <header className="flex justify-between items-center mb-16">
-          <div className="flex items-center gap-2">
-            <Calendar className="h-8 w-8 text-primary" />
+          <div className="flex items-center gap-2">        
+            <Calendar className="h-8 w-8 text-primary" />  
             <h1 className="text-2xl font-bold">AttendanceTracker</h1>
           </div>
           <div className="flex gap-4">
